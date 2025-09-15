@@ -9,6 +9,7 @@ namespace App\Controller;
 
 use App\Repository\VisiteRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\component\Routing\Annotation\Route;
 
@@ -20,12 +21,16 @@ use Symfony\component\Routing\Annotation\Route;
  * @author Mostaghfera Jan
  */
 class VoyagesContoller extends AbstractController {
-    #[Route('/voyages', name: 'voyages')]
     
+    /**
+     * @var VisiteRepository
+     */
+    private $repository;
     /**
      * 
      * @return Response
      */
+    #[Route('/voyages', name: 'voyages')]
     public function index(): Response{
         $visites = $this->repository->findAllOrderBy('datecreation', 'DESC');
         return $this->render ("pages/voyages.html.twig", [
@@ -45,10 +50,22 @@ class VoyagesContoller extends AbstractController {
             'visites' => $visites
         ]);
     }
+    
     /**
-     * @var VisiteRepository
+     * phase9_
+     * @param type $champ
+     * @param Request $request
+     * @return Response
      */
-    private $repository;
+     #[Route('/voyages/recherche/{champ}', name: 'voyages.findallequal')]
+    public function findAllEqual($champ, Request $request): Response{
+        $valeur = $request->get("recherche");
+        $visites = $this->repository->findByEqualValue($champ, $valeur);
+        return $this->render("pages/voyages.html.twig", [
+            'visites' => $visites
+        ]);
+    } 
+    
 
     /**
      * 
