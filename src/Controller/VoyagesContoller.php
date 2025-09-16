@@ -26,6 +26,16 @@ class VoyagesContoller extends AbstractController {
      * @var VisiteRepository
      */
     private $repository;
+    
+    /**
+     * 
+     * @param VisiteRepository $repository
+     */
+    public function __construct(VisiteRepository $repository)
+    {
+        
+        $this->repository = $repository;
+    }
     /**
      * 
      * @return Response
@@ -78,15 +88,7 @@ class VoyagesContoller extends AbstractController {
         ]);
     }
 
-    /**
-     * 
-     * @param VisiteRepository $repository
-     */
-    public function __construct(VisiteRepository $repository)
-    {
-        
-        $this->repository = $repository;
-    }
+    
 }
 
 
