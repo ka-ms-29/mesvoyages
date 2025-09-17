@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\VisiteRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -36,6 +38,17 @@ class Visite
 
     #[ORM\Column(nullable: true)]
     private ?int $tempmax = null;
+
+    /**
+     * @var Collection<int, Environnement>
+     */
+    #[ORM\ManyToMany(targetEntity: Environnement::class)]
+    private Collection $environnement;
+
+    public function __construct()
+    {
+        $this->environnement = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -135,5 +148,29 @@ class Visite
         }else{
             return $this-> datecreation ->format('d/m/Y');
         }
+    }
+
+    /**
+     * @return Collection<int, Environnement>
+     */
+    public function getEnvironnement(): Collection
+    {
+        return $this->environnement;
+    }
+
+    public function addEnvironnement(Environnement $environnement): static
+    {
+        if (!$this->environnement->contains($environnement)) {
+            $this->environnement->add($environnement);
+        }
+
+        return $this;
+    }
+
+    public function removeEnvironnement(Environnement $environnement): static
+    {
+        $this->environnement->removeElement($environnement);
+
+        return $this;
     }
 }
