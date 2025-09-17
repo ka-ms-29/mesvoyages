@@ -43,11 +43,11 @@ class Visite
      * @var Collection<int, Environnement>
      */
     #[ORM\ManyToMany(targetEntity: Environnement::class)]
-    private Collection $environnement;
+    private Collection $environnements;
 
     public function __construct()
     {
-        $this->environnement = new ArrayCollection();
+        $this->environnements = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -153,15 +153,15 @@ class Visite
     /**
      * @return Collection<int, Environnement>
      */
-    public function getEnvironnement(): Collection
+    public function getEnvironnements(): Collection
     {
-        return $this->environnement;
+        return $this->environnements;
     }
 
-    public function addEnvironnement(Environnement $environnement): static
+    public function addEnvironnements(Environnement $environnement): static
     {
-        if (!$this->environnement->contains($environnement)) {
-            $this->environnement->add($environnement);
+        if (!$this->environnements->contains($environnement)) {
+            $this->environnements->add($environnement);
         }
 
         return $this;
@@ -169,7 +169,7 @@ class Visite
 
     public function removeEnvironnement(Environnement $environnement): static
     {
-        $this->environnement->removeElement($environnement);
+        $this->environnements->removeElement($environnement);
 
         return $this;
     }
