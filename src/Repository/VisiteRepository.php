@@ -71,6 +71,22 @@ class VisiteRepository extends ServiceEntityRepository
         $this->getEntityManager()->persist($visite);
         $this->getEntityManager()->flush();
     } 
+    
+    /**
+     * phase_21
+     * @param type $nb
+     * @return array
+     */
+    public function findAllLasted($nb) : array {
+        return $this->createQueryBuilder('v') // alias de la table
+           ->orderBy('v.datecreation', 'DESC')
+           ->setMaxResults($nb)     
+           ->getQuery()
+           ->getResult();
+    }
+    
+    
+    
     //    /**
     //     * @return Visite[] Returns an array of Visite objects
     //     */
