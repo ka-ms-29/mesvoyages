@@ -70,6 +70,7 @@ class VisiteRepository extends ServiceEntityRepository
     {
         $this->getEntityManager()->persist($visite);
         $this->getEntityManager()->flush();
+        
     } 
     
     /**
