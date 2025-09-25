@@ -62,6 +62,7 @@ class Visite
     private ?int $imageSize = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\LessThanOrEqual("now")]
     private ?\DateTimeImmutable $updatedAt = null;    
     
     
