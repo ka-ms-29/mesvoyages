@@ -37,19 +37,37 @@ class VisiteRepository extends ServiceEntityRepository
      */
     public function findByEqualValue($champ, $valeur): array{
         if($valeur==""){
+            if ($champ == "environnements") {
+                return $this->createQueryBuilder('v')
+                        ->orderBy('v.datecreation', 'DESC')
+                        ->getQuery()
+                        ->getResult();
+            }else{
             return $this->createQueryBuilder('v')
                     ->orderBy('v.'.$champ, 'ASC')
                     ->getQuery()
-                    ->getResult();            
+                    ->getResult();  
+            }
         }else{
-            return $this->createQueryBuilder('v')
+            if ($champ == "environnements") {
+                return $this->createQueryBuilder('v')
+                        ->join('v.environnements', 'e')
+                        ->where('e.nom = :valeur')
+                        ->setParameter('valeur', $valeur)
+                        ->orderBy('v.datecreation', 'DESC')
+                        ->getQuery()
+                        ->getResult();
+            } else {
+                return $this->createQueryBuilder('v')
                     ->where('v.'.$champ.'=:valeur')
                     ->setParameter('valeur', $valeur)
                     ->orderBy('v.datecreation', 'DESC')
                     ->getQuery()
-                    ->getResult();                   
+                    ->getResult();  
+             }                            
         }
     }
+    
     /**
      * 
      * @param Visite $visite
@@ -86,6 +104,23 @@ class VisiteRepository extends ServiceEntityRepository
            ->getResult();
     }
     
+    public function findAllForOneEnvironnement(string $nomEnvironnement): array {
+    if ($nomEnvironnement == "") {
+        return $this->createQueryBuilder('v')
+                    ->orderBy('v.date', 'DESC') // tri par défaut si aucun filtre
+                    ->getQuery()
+                    ->getResult();            
+    } else {
+        return $this->createQueryBuilder('v')
+                    ->join('v.environnements', 'e')
+                    ->where('e.nom = :valeur')
+                    ->setParameter('valeur', $nomEnvironnement)
+                    ->orderBy('v.date', 'DESC')
+                    ->getQuery()
+                    ->getResult();
+    }
+}
+
     
     
     //    /**
